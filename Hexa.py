@@ -1,4 +1,4 @@
-class Hexa:
+class Hexa(object):
     FRC = 0
     FRF = 1
     FRT = 2
@@ -24,3 +24,5 @@ class Hexa:
                       [FLC, 70], [FLF, 125], [FLT, 50],
                       [MLC, 70], [MLF, 125], [MLT, 50],
                       [BLC, 100], [BLF, 125], [BLT, 50]]
+
+    max_step_size = 50

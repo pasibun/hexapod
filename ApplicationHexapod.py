@@ -6,9 +6,10 @@ from Movement import Movement
 
 if __name__ == '__main__':
     logging.basicConfig(filename='logging.log', level=logging.INFO, format='%(asctime)s %(message)s')
-    logging.info("Starting application. Saving logs in ~/logging.log")
+    logging.info("Starting application")
     movement = Movement()
     movement.rest_position()
+    print("Saving logs in ~/logging.log")
     while True:
         print("Press w to move forwards or s for backwards")
         user_input = input()
