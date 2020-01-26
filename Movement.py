@@ -39,7 +39,7 @@ class Movement(object):
 
     def walking(self, direction, step_size, speed):
         logging.info(
-            "Staring to walk with step size: " + str(step_size) + ", speed: " + str(speed) + ", direction:" + str(
+            "Staring to walk with step size: " + str(step_size) + ", speed: " + str(speed) + ", direction: " + str(
                 direction))
         try:
             walking_position = self.hexapod.reset_position
@@ -47,9 +47,10 @@ class Movement(object):
                 servo = first[0]
                 angle = first[1]
                 if servo == 0 or servo == 6 or servo == 12:
-                    logging.info("determine_angle: " + angle + ", " + self.hexapod.reset_position[
-                        servo] + ", " + direction + ", " + step_size)
-                    new_angle = self.determine_angle(angle, self.hexapod.reset_position[servo], direction, step_size)
+                    reset_angle = self.hexapod.reset_position[servo]
+                    logging.info("determine_angle: %s, %s, %s, %s, ", str(angle), str(reset_angle[1]), str(direction),
+                                 str(step_size))
+                    new_angle = self.determine_angle(angle, reset_angle[1], direction, step_size)
                     walking_position[servo][1] = new_angle
                     self.servo_board_1.servo[servo].angle = angle
                     time.sleep(speed)
@@ -58,9 +59,10 @@ class Movement(object):
                 servo = second[0]
                 angle = second[1]
                 if servo == 3 or servo == 9 or servo == 15:
-                    logging.info("determine_angle: " + angle + ", " + self.hexapod.reset_position[
-                        servo] + ", " + direction + ", " + step_size)
-                    new_angle = self.determine_angle(angle, self.hexapod.reset_position[servo], direction, step_size)
+                    reset_angle = self.hexapod.reset_position[servo]
+                    logging.info("determine_angle: %s, %s, %s, %s, ", str(angle), str(reset_angle[1]), str(direction),
+                                 str(step_size))
+                    new_angle = self.determine_angle(angle, reset_angle[1], direction, step_size)
                     walking_position[servo][1] = new_angle
                     if servo == 15:
                         self.servo_board_2.servo[servo].angle = angle
@@ -83,20 +85,18 @@ class Movement(object):
                     new_angle = reset_angle + step_size
                 else:
                     new_angle = reset_angle - step_size
-                logging.info("New angle: " + new_angle)
             elif direction == Direction.BACKWARD:
+                logging.info("going backward.")
                 if angle == reset_angle:
                     new_angle = reset_angle + step_size
                 elif angle + step_size == reset_angle:
                     new_angle = reset_angle + step_size
                 else:
                     new_angle = reset_angle - step_size
-                logging.info("New angle: " + new_angle)
             else:
                 new_angle = reset_angle
-                logging.info("New angle: " + new_angle)
         except:
             logging.error("Something went wrong with determine_angle.")
             new_angle = reset_angle
-        logging.info("Old angle: " + angle + ". New angle: " + new_angle)
+        logging.info("Old angle: %s. New angle: %s", str(angle), str(new_angle))
         return new_angle
