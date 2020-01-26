@@ -20,6 +20,7 @@ class Movement(object):
     pca.frequency = 50
 
     hexapod = Hexa()
+    walking_position = hexapod.reset_position
 
     def rest_position(self):
         logging.info("Putting Hexapod in rest position")
@@ -38,12 +39,12 @@ class Movement(object):
                 self.servo_board_1.servo[servo].angle = angle
 
     def walking(self, direction, step_size, speed):
+        global walking_position
         logging.info(
             "Staring to walk with step size: " + str(step_size) + ", speed: " + str(speed) + ", direction: " + str(
                 direction))
         try:
-            walking_position = self.hexapod.reset_position
-            for first in walking_position:
+            for first in self.walking_position:
                 servo = first[0]
                 angle = first[1]
                 if servo == 0 or servo == 6 or servo == 12:
@@ -51,11 +52,11 @@ class Movement(object):
                     logging.info("determine_angle: %s, %s, %s, %s, ", str(angle), str(reset_angle[1]), str(direction),
                                  str(step_size))
                     new_angle = self.determine_angle(angle, reset_angle[1], direction, step_size)
-                    walking_position[servo][1] = new_angle
+                    self.walking_position[servo][1] = new_angle
                     self.servo_board_1.servo[servo].angle = angle
                     time.sleep(speed)
 
-            for second in walking_position:
+            for second in self.walking_position:
                 servo = second[0]
                 angle = second[1]
                 if servo == 3 or servo == 9 or servo == 15:
@@ -63,9 +64,9 @@ class Movement(object):
                     logging.info("determine_angle: %s, %s, %s, %s, ", str(angle), str(reset_angle[1]), str(direction),
                                  str(step_size))
                     new_angle = self.determine_angle(angle, reset_angle[1], direction, step_size)
-                    walking_position[servo][1] = new_angle
+                    self.walking_position[servo][1] = new_angle
                     if servo == 15:
-                        self.servo_board_2.servo[servo].angle = angle
+                        self.servo_board_2.servo[0].angle = angle
                     else:
                         self.servo_board_1.servo[servo].angle = angle
                     time.sleep(speed)
