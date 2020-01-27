@@ -18,6 +18,6 @@ if __name__ == '__main__':
             input_direction = Direction.FORWARD
         elif user_input == "s":
             input_direction = Direction.BACKWARD
-        movement.walking(input_direction, 25, 0.5)
+        movement.walking(input_direction, 50, 0.1)
         time.sleep(1)
         movement.rest_position()

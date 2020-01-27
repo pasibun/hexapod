@@ -47,22 +47,21 @@ class Movement(object):
                 angle = first[1]
                 if servo == 0 or servo == 6 or servo == 12:
                     reset_angle = self.hexapod.reset_position[servo]
-                    logging.info("determine_angle: %s, %s, %s, %s, ", str(angle), str(reset_angle[1]), str(direction),
+                    logging.info("determine_angle: %s, %s, %s, %s", str(angle), str(reset_angle[1]), str(direction),
                                  str(step_size))
                     new_angle = self.determine_angle(angle, reset_angle[1], direction, step_size)
                     print(self.hexapod.current_position)
                     self.hexapod.current_position[servo][1] = new_angle
                     self.servo_board_1.servo[servo].angle = new_angle
                     time.sleep(speed)
-
+            time.sleep(0.5)
             for second in self.hexapod.current_position:
                 servo = second[0]
                 angle = second[1]
                 if servo == 3 or servo == 9 or servo == 15:
                     reset_angle = self.hexapod.reset_position[servo]
-                    logging.info("determine_angle: %s, %s, %s, %s, ", str(angle), str(reset_angle[1]), str(direction),
-                                 str(step_size))
-                    new_angle = self.determine_angle(angle, reset_angle[1], direction, step_size)
+                    logging.info("determine_angle: %s, %s, %s, %s", str(angle), str(reset_angle[1]), str(direction), str(step_size))
+                    new_angle = self.determine_angle(angle, reset_angle[1], Direction.BACKWARD, step_size)
                     self.hexapod.current_position[servo][1] = new_angle
                     if servo == 15:
                         self.servo_board_2.servo[0].angle = new_angle
@@ -89,10 +88,10 @@ class Movement(object):
                 logging.info("going backward.")
                 if angle == reset_angle:
                     new_angle = reset_angle + step_size
-                elif angle + step_size == reset_angle:
-                    new_angle = reset_angle + step_size
-                else:
+                elif angle - step_size == reset_angle:
                     new_angle = reset_angle - step_size
+                else:
+                    new_angle = reset_angle + step_size
             else:
                 new_angle = reset_angle
         except:
