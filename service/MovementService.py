@@ -6,11 +6,11 @@ from adafruit_pca9685 import PCA9685
 from adafruit_servokit import ServoKit
 from board import SCL, SDA
 
-from Direction import Direction
-from Hexa import Hexa
+from model.Direction import Direction
+from model.Hexa import Hexa
 
 
-class Movement(object):
+class MovementService(object):
     servo_board_1 = ServoKit(channels=16, address=0x40)
     servo_board_2 = ServoKit(channels=16, address=0x41)
 

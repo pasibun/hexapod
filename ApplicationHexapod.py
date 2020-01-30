@@ -4,9 +4,9 @@ import termios
 import time
 import tty
 
-from Direction import Direction
-from Movement import Movement
-from PlaystationController import PlaystationController
+from model.Direction import Direction
+from service.MovementService import MovementService
+from service.PlaystationService import PlaystationService
 
 
 def getch():
@@ -23,8 +23,8 @@ def getch():
 if __name__ == '__main__':
     logging.basicConfig(filename='logging.log', level=logging.INFO, format='%(asctime)s %(message)s')
     logging.info("Starting application")
-    movement = Movement()
-    ps3 = PlaystationController()
+    movement = MovementService()
+    ps3 = PlaystationService()
     movement.rest_position()
     print("Saving logs in ~/logging.log")
     ps3.getInformation()
