@@ -31,4 +31,4 @@ class Hexa(object):
                       [FLC, 70], [FLF, 125], [FLT, 50],
                       [MLC, 70], [MLF, 125], [MLT, 50],
                       [BLC, 100], [BLF, 125], [BLT, 50]]
-    max_step_size = 50
+    max_step_size = 25

@@ -20,6 +20,7 @@ class Movement(object):
     pca.frequency = 50
 
     hexapod = Hexa()
+    first_time = True
 
     def rest_position(self):
         logging.info("Putting Hexapod in rest position")
@@ -38,38 +39,41 @@ class Movement(object):
                 self.servo_board_1.servo[servo].angle = angle
 
     def walking(self, direction, step_size, speed):
+        global first_time
         logging.info(
             "Staring to walk with step size: " + str(step_size) + ", speed: " + str(speed) + ", direction: " + str(
                 direction))
         try:
-            for first in self.hexapod.current_position:
-                servo = first[0]
-                angle = first[1]
+            for right in self.hexapod.current_position:
+                servo = right[0]
+                angle = right[1]
                 if servo == 0 or servo == 6 or servo == 12:
-                    reset_angle = self.hexapod.reset_position[servo]
-                    logging.info("determine_angle: %s, %s, %s, %s", str(angle), str(reset_angle[1]), str(direction),
-                                 str(step_size))
-                    new_angle = self.determine_angle(angle, reset_angle[1], direction, step_size)
-                    print(self.hexapod.current_position)
+                    new_angle = self.get_new_angle(angle, direction, servo, step_size)
                     self.hexapod.current_position[servo][1] = new_angle
                     self.servo_board_1.servo[servo].angle = new_angle
                     time.sleep(speed)
+            if not self.first_time:
+                for left in self.hexapod.current_position:
+                    servo = left[0]
+                    angle = left[1]
+                    if servo == 3 or servo == 9 or servo == 15:
+                        new_angle = self.get_new_angle(angle, direction, servo, step_size)
+                        self.hexapod.current_position[servo][1] = new_angle
+                        if servo == 15:
+                            self.servo_board_2.servo[0].angle = new_angle
+                        else:
+                            self.servo_board_1.servo[servo].angle = new_angle
+                        time.sleep(speed)
+            else:
+                self.first_time = False
             time.sleep(0.5)
-            for second in self.hexapod.current_position:
-                servo = second[0]
-                angle = second[1]
-                if servo == 3 or servo == 9 or servo == 15:
-                    reset_angle = self.hexapod.reset_position[servo]
-                    logging.info("determine_angle: %s, %s, %s, %s", str(angle), str(reset_angle[1]), str(direction), str(step_size))
-                    new_angle = self.determine_angle(angle, reset_angle[1], Direction.BACKWARD, step_size)
-                    self.hexapod.current_position[servo][1] = new_angle
-                    if servo == 15:
-                        self.servo_board_2.servo[0].angle = new_angle
-                    else:
-                        self.servo_board_1.servo[servo].angle = new_angle
-                    time.sleep(speed)
         except:
             logging.error("Something went wrong with walking.")
+
+    def get_new_angle(self, angle, direction, servo, step_size):
+        reset_angle = self.hexapod.reset_position[servo]
+        logging.info("determine_angle: %s, %s, %s, %s", str(angle), str(reset_angle[1]), str(direction), str(step_size))
+        return self.determine_angle(angle, reset_angle[1], Direction.FORWARD, step_size)
 
     def determine_angle(self, angle, reset_angle, direction, step_size):
         try:
