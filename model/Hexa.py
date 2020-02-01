@@ -33,5 +33,5 @@ class Hexa(object):
                       [BLC, 100], [BLF, 125], [BLT, 50]]
     max_step_size_coxa = 25
     max_step_size_femur = 20
-    default_step_size_femur = 10
+    default_step_size_femur = 50
     max_step_size_tibia = 10
