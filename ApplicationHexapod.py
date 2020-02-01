@@ -40,7 +40,7 @@ if __name__ == '__main__':
                 input_direction = Direction.BACKWARD
             movement.walking(input_direction, 25, 0.01)
             time.sleep(1)
-            movement.rest_position()
+
     except KeyboardInterrupt:
         print("Exiting program.")
         logging.error("Exit application")

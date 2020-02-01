@@ -48,26 +48,24 @@ class MovementService(object):
                 servo = right[0]
                 if servo == 0 or servo == 6 or servo == 12:
                     new_angles = self.get_new_position_leg(direction, servo, step_size)
-                    for i in range(2):
-                        print(str(i), ": ", str(new_angles[i]))
-                        print(new_angles[i])
+                    for i in range(1, -1, -1):
                         self.hexapod.current_position[servo + i][1] = new_angles[i]
                         self.servo_board_1.servo[servo + i].angle = new_angles[i]
-                    time.sleep(speed)
+                        time.sleep(speed)
             if not self.first_time:
                 for left in self.hexapod.current_position:
                     servo = left[0]
                     if servo == 3 or servo == 9 or servo == 15:
-                        new_angle = self.get_new_position_leg(direction, servo, step_size)
-                        self.hexapod.current_position[servo][1] = new_angle
-                        if servo == 15:
-                            self.servo_board_2.servo[0].angle = new_angle
-                        else:
-                            self.servo_board_1.servo[servo].angle = new_angle
-                        time.sleep(speed)
+                        new_angles = self.get_new_position_leg(direction, servo, step_size)
+                        for i in range(1, -1, -1):
+                            self.hexapod.current_position[servo][1] = new_angles[1]
+                            if servo == 15:
+                                self.servo_board_2.servo[0].angle = new_angles[1]
+                            else:
+                                self.servo_board_1.servo[servo].angle = new_angles[1]
+                            time.sleep(speed)
             else:
                 self.first_time = False
-            time.sleep(0.5)
         except:
             logging.error("Something went wrong with walking.")
 
@@ -80,10 +78,10 @@ class MovementService(object):
         current_angle_femur = self.hexapod.current_position[servo + 1][1]
         reset_angle_femur = self.hexapod.reset_position[servo + 1]
         femur_step = self.hexapod.default_step_size_femur
-        if not self.first_time:
-            femur = reset_angle_femur
+        if self.first_time:
+            femur = reset_angle_femur[1]
         else:
-            femur = self.determine_femur_angle(current_angle_femur, femur_step, reset_angle_femur)
+            femur = self.determine_femur_angle(current_angle_femur, femur_step, reset_angle_femur[1])
 
         # TODO tibia beweging toevoegen.
         # angle_tibia = self.hexapod.current_position[servo + 1][1]
@@ -98,11 +96,11 @@ class MovementService(object):
             if direction == Direction.FORWARD:
                 logging.info("going forward.")
                 if angle == reset_angle:
-                    new_angle = reset_angle - step_size
-                elif angle + step_size == reset_angle:
                     new_angle = reset_angle + step_size
-                else:
+                elif angle - step_size == reset_angle:
                     new_angle = reset_angle - step_size
+                else:
+                    new_angle = reset_angle + step_size
             elif direction == Direction.BACKWARD:
                 logging.info("going backward.")
                 if angle == reset_angle:
