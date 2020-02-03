@@ -1,3 +1,6 @@
+from model.Leg import Leg
+
+
 class Hexa(object):
     FRC = 0
     FRF = 1
@@ -26,11 +29,11 @@ class Hexa(object):
                       [BLC, 100], [BLF, 125], [BLT, 50]]
 
     current_position = [[FRC, 100], [FRF, 125], [FRT, 50],
-                      [MRC, 50], [MRF, 125], [MRT, 50],
-                      [BRC, 75], [BRF, 125], [BRT, 50],
-                      [FLC, 70], [FLF, 125], [FLT, 50],
-                      [MLC, 70], [MLF, 125], [MLT, 50],
-                      [BLC, 100], [BLF, 125], [BLT, 50]]
+                        [MRC, 50], [MRF, 125], [MRT, 50],
+                        [BRC, 75], [BRF, 125], [BRT, 50],
+                        [FLC, 70], [FLF, 125], [FLT, 50],
+                        [MLC, 70], [MLF, 125], [MLT, 50],
+                        [BLC, 100], [BLF, 125], [BLT, 50]]
     max_step_size_coxa = 25
     max_step_size_femur = 20
     default_step_size_femur = 50
