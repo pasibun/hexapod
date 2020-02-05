@@ -26,10 +26,10 @@ if __name__ == '__main__':
         logging.basicConfig(filename='logging.log', level=logging.INFO, format='%(asctime)s %(message)s')
         logging.info("Starting application")
         movement = MovementService()
-        ps3 = PlaystationService()
+        #ps3 = PlaystationService()
         movement.rest_position()
         print("Saving logs in ~/logging.log")
-        ps3.getInformation()
+        #ps3.getInformation()
         while True:
             print("Press w to move forwards or s for backwards")
             user_input = input()  #getch()
@@ -38,7 +38,8 @@ if __name__ == '__main__':
                 input_direction = Direction.FORWARD
             elif user_input == "s":
                 input_direction = Direction.BACKWARD
-            movement.walking(input_direction, 25, 0.01)
+            for i in range(3):
+                movement.walking(input_direction, 25, 0.01)
             time.sleep(1)
 
     except KeyboardInterrupt:

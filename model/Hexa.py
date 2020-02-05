@@ -1,6 +1,3 @@
-from model.Leg import Leg
-
-
 class Hexa(object):
     FRC = 0
     FRF = 1

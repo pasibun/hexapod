@@ -1,4 +1,5 @@
 import logging
+import time
 
 import busio
 from adafruit_pca9685 import PCA9685
@@ -50,12 +51,13 @@ class MovementService(object):
                     new_angle = self.walkhelper.move_start_legs(servo, direction, step_size)
                     self.servo_board_1.servo[servo].angle = new_angle
             if not self.first_time:
+                time.sleep(1)
                 for second_legs in self.hexapod.current_position:
                     servo = second_legs[0]
                     if servo in [3, 4, 5, 9, 10, 11, 15, 16, 17]:
                         new_angle = self.walkhelper.start_second_legs(servo, direction, step_size)
                         if servo in [15, 16, 17]:
-                            self.servo_board_2.servo[servo].angle = new_angle
+                            self.servo_board_2.servo[servo - 15].angle = new_angle
                         else:
                             self.servo_board_1.servo[servo].angle = new_angle
             else:

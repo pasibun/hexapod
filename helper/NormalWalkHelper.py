@@ -30,7 +30,7 @@ class NormalWalkHelper(object):
         logging.info("Moving coxa. Old angle: " + str(self.hexapod.current_position[servo][1]) + "New angle: " + str(
             new_angle_coxa))
         self.hexapod.current_position[servo][1] = new_angle_coxa
-        time.sleep(0.5)
+        time.sleep(0.1)
         return new_angle_coxa
 
     def move_femur(self, servo, side):
@@ -40,7 +40,7 @@ class NormalWalkHelper(object):
         # Bepalen waar de coxa staat.
         coxa_angle = self.hexapod.current_position[servo - 1][1]
         reset_angle_coxa = self.hexapod.reset_position[servo - 1]
-        if (side == "R" and coxa_angle > reset_angle_coxa) or (side == "L" and coxa_angle < reset_angle_coxa):
+        if (side == "R" and coxa_angle > reset_angle_coxa[1]) or (side == "L" and coxa_angle < reset_angle_coxa[1]):
             new_femur_angle = reset_angle_femur[1] - femur_step
         else:
             new_femur_angle = reset_angle_femur[1]
@@ -48,6 +48,7 @@ class NormalWalkHelper(object):
         logging.info("Moving femur. Old angle: " + str(self.hexapod.current_position[servo][1]) + "New angle: " + str(
             new_femur_angle))
         self.hexapod.current_position[servo][1] = new_femur_angle
+        #time.sleep(0.1)
         return new_femur_angle
 
     def determine_coxa_angle(self, angle, reset_angle, direction, step_size, side):
