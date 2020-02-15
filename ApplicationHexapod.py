@@ -38,7 +38,9 @@ if __name__ == '__main__':
                 input_direction = Direction.FORWARD
             elif user_input == "s":
                 input_direction = Direction.BACKWARD
-            for i in range(3):
+            print("Hoe vaak moet die bewegen?")
+            hoevaak = input()
+            for i in range(int(hoevaak)):
                 movement.walking(input_direction, 25, 0.01)
             time.sleep(1)
 
