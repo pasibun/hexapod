@@ -29,12 +29,7 @@ class MovementService(object):
             servo = position[0]
             angle = position[1]
             if servo > 14:
-                if servo == 15:
-                    servo = 0
-                if servo == 16:
-                    servo = 1
-                if servo == 17:
-                    servo = 2
+                servo = servo - 15
                 self.servo_board_2.servo[servo].angle = angle
             else:
                 self.servo_board_1.servo[servo].angle = angle
@@ -45,22 +40,19 @@ class MovementService(object):
             "Staring to walk with step size: " + str(step_size) + ", speed: " + str(speed) + ", direction: " + str(
                 direction))
         try:
+            for second_legs in self.hexapod.current_position:
+                servo = second_legs[0]
+                if servo in [3, 4, 5, 9, 10, 11, 15, 16, 17]:
+                    new_angle = self.walkhelper.start_second_legs(servo, direction, step_size)
+                    if servo in [15, 16, 17]:
+                        self.servo_board_2.servo[servo - 15].angle = new_angle
+                    else:
+                        self.servo_board_1.servo[servo].angle = new_angle
+            time.sleep(0.5)
             for start_legs in self.hexapod.current_position:
                 servo = start_legs[0]
                 if servo in [0, 1, 2, 6, 7, 8, 12, 13, 14]:
                     new_angle = self.walkhelper.move_start_legs(servo, direction, step_size)
                     self.servo_board_1.servo[servo].angle = new_angle
-            if not self.first_time:
-                time.sleep(1)
-                for second_legs in self.hexapod.current_position:
-                    servo = second_legs[0]
-                    if servo in [3, 4, 5, 9, 10, 11, 15, 16, 17]:
-                        new_angle = self.walkhelper.start_second_legs(servo, direction, step_size)
-                        if servo in [15, 16, 17]:
-                            self.servo_board_2.servo[servo - 15].angle = new_angle
-                        else:
-                            self.servo_board_1.servo[servo].angle = new_angle
-            else:
-                self.first_time = False
         except:
             logging.error("Something went wrong with walking.")
