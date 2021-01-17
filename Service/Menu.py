@@ -10,13 +10,13 @@ class Menu(object):
 
     def __init__(self):
         logging.info("Init menu service")
-        movement = Movement()
-        movement.rest_position()
+        self.movement = Movement()
+        self.movement.rest_position()
 
     def starting_menu(self):
-        print("Choose walking method:**"
-              "1 -> Tripod gait**"
-              "2 -> Crab walk**", end="**")
+        print("Choose walking method: /n"
+              "1 -> Tripod gait /n"
+              "2 -> Crab walk", end="/n")
         walking_method = input()
         if walking_method.isdecimal():
             self.walking_menu()
