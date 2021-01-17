@@ -1,8 +1,8 @@
 import logging
 import time
 
-from Direction import Direction
-from Movement import Movement
+from Domain.Direction import Direction
+from Service.Movement import Movement
 
 if __name__ == '__main__':
     logging.basicConfig(filename='logging.log', level=logging.INFO, format='%(asctime)s %(message)s')

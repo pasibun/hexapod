@@ -6,8 +6,8 @@ from adafruit_pca9685 import PCA9685
 from adafruit_servokit import ServoKit
 from board import SCL, SDA
 
-from Direction import Direction
-from Hexa import Hexa
+from Domain.Direction import Direction
+from Domain.Hexa import Hexa
 
 
 class Movement(object):
