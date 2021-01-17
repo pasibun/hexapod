@@ -21,6 +21,9 @@ class Movement(object):
 
     max_step_size = 50
 
+    def __init__(self):
+        logging.info("Init movement service")
+
     def rest_position(self):
         logging.info("Putting Hexapod in rest position")
         for position in Hexa.reset_position:
@@ -37,7 +40,7 @@ class Movement(object):
             else:
                 self.servo_board_1.servo[servo].angle = angle
 
-    def walking(self, direction, step_size, speed):
+    def tripod_gait(self, direction, step_size, speed):
         logging.info("Staring to walk with step size: " + str(step_size) + ", speed: " + str(speed) + ", direction:" + str(direction))
         try:
             walking_position = Hexa.reset_position
@@ -70,9 +73,14 @@ class Movement(object):
                 step_size = self.max_step_size
 
             if direction == Direction.FORWARD:
+                print(angle)
+                print(reset_angle)
+                print(angle + step_size)
                 if angle == reset_angle:
+                    print(reset_angle - step_size)
                     new_angle = reset_angle - step_size
                 elif angle + step_size == reset_angle:
+                    print(reset_angle + step_size)
                     new_angle = reset_angle + step_size
                 else:
                     new_angle = reset_angle - step_size
