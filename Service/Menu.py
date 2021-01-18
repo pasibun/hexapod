@@ -14,9 +14,9 @@ class Menu(object):
         self.movement.rest_position()
 
     def starting_menu(self):
-        print("Choose walking method: /n"
-              "1 -> Tripod gait /n"
-              "2 -> Crab walk", end="/n")
+        print("Choose walking method: \n"
+              "1 -> Tripod gait \n"
+              "2 -> Crab walk")
         walking_method = input()
         if walking_method.isdecimal():
             self.walking_menu()
