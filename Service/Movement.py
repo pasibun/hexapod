@@ -43,7 +43,7 @@ class Movement(object):
         print("started all legs.")
 
     def move_tripod_gait(self, leg, direction, step_size, speed):
-        logging.info("Staring to walk with step size: " + str(step_size) + ", speed: " + str(speed) + ", direction:" + str(direction) + ", and legs: " + str(legs))
+        logging.info("Staring to walk with step size: " + str(step_size) + ", speed: " + str(speed) + ", direction:" + str(direction) + ", and leg: " + str(leg.name))
         try:
             logging.info("moving leg: " + str(leg.name))
             if leg.tibia < 15:
