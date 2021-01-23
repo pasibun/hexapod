@@ -19,7 +19,7 @@ class Movement(object):
     # Create the I2C bus interface.
     i2c_bus = busio.I2C(SCL, SDA)
     pca = PCA9685(i2c_bus)
-    pca.frequency = 50
+    pca.frequency = 60
 
     max_step_size = 50
 
@@ -79,7 +79,6 @@ class Movement(object):
                 self.servo_board_1.servo[leg.coxa].angle = self.determine_angle(leg, direction)
             else:
                 self.servo_board_2.servo[leg.coxa - 15].angle = self.determine_angle(leg, direction)
-            time.sleep(speed)
         except:
             logging.error("Bende is kapot in move_tripod_gait" + str(leg.name))
 
