@@ -12,8 +12,8 @@ class Hexa(object):
     middle_left = None
     back_left = None
 
-    tripod_gait_right = [front_right, back_right, middle_left]
-    tripod_gait_left = [front_left, back_left, middle_right]
+    tripod_gait_right = None
+    tripod_gait_left = None
 
     def __init__(self):
         logging.info("Init Hexa")
@@ -23,3 +23,6 @@ class Hexa(object):
         self.front_right = Leg(name=LegName.FRONT_RIGHT, coxa=9, femur=10, tibia=11, front=[30], back=[130], left=[], right=[], rest=[70])
         self.middle_right = Leg(name=LegName.MIDDLE_RIGHT, coxa=12, femur=13, tibia=14, front=[50], back=[140], left=[], right=[], rest=[95])
         self.back_right = Leg(name=LegName.BACK_RIGHT, coxa=15, femur=16, tibia=17, front=[40], back=[140], left=[], right=[], rest=[100])
+
+        self.tripod_gait_right = [self.front_right, self.back_right, self.middle_left]
+        self.tripod_gait_left = [self.front_left, self.back_left, self.middle_right]

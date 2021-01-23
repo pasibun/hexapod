@@ -14,7 +14,7 @@ from Domain.Hexa import Hexa
 class Movement(object):
     servo_board_1 = ServoKit(channels=16, address=0x40)
     servo_board_2 = ServoKit(channels=16, address=0x41)
-    hexapod = None
+    hexapod = Hexa()
 
     # Create the I2C bus interface.
     i2c_bus = busio.I2C(SCL, SDA)
@@ -25,7 +25,6 @@ class Movement(object):
 
     def __init__(self):
         logging.info("Init movement service")
-        self.hexapod = Hexa()
 
     def tripod_gait(self, direction, step_size, speed):
         t1 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_right[0], Direction.FORWARD, step_size, speed))
