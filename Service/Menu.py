@@ -1,7 +1,7 @@
 import logging
 import time
 
-from Domain.Direction import Direction
+from Domain.Enum.Direction import Direction
 from Service.Movement import Movement
 
 
@@ -11,7 +11,7 @@ class Menu(object):
     def __init__(self):
         logging.info("Init menu service")
         self.movement = Movement()
-        self.movement.rest_position()
+        # self.movement.rest_position()
 
     def starting_menu(self):
         print("Choose walking method: \n"
@@ -19,11 +19,11 @@ class Menu(object):
               "2 -> Crab walk")
         walking_method = input()
         if walking_method.isdecimal():
-            self.walking_menu()
+            self.walking_menu(walking_method)
         else:
             self.starting_menu()
 
-    def walking_menu(self):
+    def walking_menu(self, walking_method):
         print("Press w to move forwards or s for backwards")
         user_input = input()
         input_direction = Direction.FORWARD
@@ -31,6 +31,6 @@ class Menu(object):
             input_direction = Direction.FORWARD
         elif user_input == "s":
             input_direction = Direction.BACKWARD
-        self.movement.tripod_gait(input_direction, 25, 0.5)
+        self.movement.tripod_gait(direction=input_direction, step_size=25, speed=1)
         time.sleep(1)
-        self.movement.rest_position()
+        # self.movement.rest_position()
