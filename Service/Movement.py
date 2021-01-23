@@ -14,6 +14,7 @@ from Domain.Hexa import Hexa
 class Movement(object):
     servo_board_1 = ServoKit(channels=16, address=0x40)
     servo_board_2 = ServoKit(channels=16, address=0x41)
+    hexapod = Hexa()
 
     # Create the I2C bus interface.
     i2c_bus = busio.I2C(SCL, SDA)
@@ -42,13 +43,13 @@ class Movement(object):
     #             self.servo_board_1.servo[servo].angle = angle
 
     def tripod_gait(self, direction, step_size, speed):
-        t1 = threading.Thread(target=self.move_tripod_gait, args=(Hexa.tripod_gait_right[0], Direction.FORWARD, step_size, speed))
-        t2 = threading.Thread(target=self.move_tripod_gait, args=(Hexa.tripod_gait_right[1], Direction.FORWARD, step_size, speed))
-        t3 = threading.Thread(target=self.move_tripod_gait, args=(Hexa.tripod_gait_right[2], Direction.FORWARD, step_size, speed))
+        t1 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_right[0], Direction.FORWARD, step_size, speed))
+        t2 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_right[1], Direction.FORWARD, step_size, speed))
+        t3 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_right[2], Direction.FORWARD, step_size, speed))
 
-        t4 = threading.Thread(target=self.move_tripod_gait, args=(Hexa.tripod_gait_left[0], Direction.BACKWARD, step_size, speed))
-        t5 = threading.Thread(target=self.move_tripod_gait, args=(Hexa.tripod_gait_left[1], Direction.BACKWARD, step_size, speed))
-        t6 = threading.Thread(target=self.move_tripod_gait, args=(Hexa.tripod_gait_left[2], Direction.BACKWARD, step_size, speed))
+        t4 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_left[0], Direction.BACKWARD, step_size, speed))
+        t5 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_left[1], Direction.BACKWARD, step_size, speed))
+        t6 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_left[2], Direction.BACKWARD, step_size, speed))
         t1.start()
         t2.start()
         t3.start()
