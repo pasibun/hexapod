@@ -14,7 +14,7 @@ from Domain.Hexa import Hexa
 class Movement(object):
     servo_board_1 = ServoKit(channels=16, address=0x40)
     servo_board_2 = ServoKit(channels=16, address=0x41)
-    hexapod = Hexa()
+    hexapod = None
 
     # Create the I2C bus interface.
     i2c_bus = busio.I2C(SCL, SDA)
@@ -25,22 +25,7 @@ class Movement(object):
 
     def __init__(self):
         logging.info("Init movement service")
-
-    # def rest_position(self):
-    #     logging.info("Putting Hexapod in rest position")
-    #     for position in Hexa.reset_position:
-    #         servo = position[0]
-    #         angle = position[1]
-    #         if servo > 14:
-    #             if servo == 15:
-    #                 servo = 0
-    #             if servo == 16:
-    #                 servo = 1
-    #             if servo == 17:
-    #                 servo = 2
-    #             self.servo_board_2.servo[servo].angle = angle
-    #         else:
-    #             self.servo_board_1.servo[servo].angle = angle
+        self.hexapod = Hexa()
 
     def tripod_gait(self, direction, step_size, speed):
         t1 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_right[0], Direction.FORWARD, step_size, speed))
@@ -76,6 +61,22 @@ class Movement(object):
         if direction == Direction.BACKWARD:
             angle = leg.max_back_position[0]
         return angle
+
+    # def rest_position(self):
+    #     logging.info("Putting Hexapod in rest position")
+    #     for position in Hexa.reset_position:
+    #         servo = position[0]
+    #         angle = position[1]
+    #         if servo > 14:
+    #             if servo == 15:
+    #                 servo = 0
+    #             if servo == 16:
+    #                 servo = 1
+    #             if servo == 17:
+    #                 servo = 2
+    #             self.servo_board_2.servo[servo].angle = angle
+    #         else:
+    #             self.servo_board_1.servo[servo].angle = angle
 
     # def tripod_gait_oud(self, direction, step_size, speed):
     #     logging.info("Staring to walk with step size: " + str(step_size) + ", speed: " + str(speed) + ", direction:" + str(direction))
