@@ -42,18 +42,17 @@ class Movement(object):
         # t6.start()
         print("started all legs.")
 
-    def move_tripod_gait(self, legs, direction, step_size, speed):
+    def move_tripod_gait(self, leg, direction, step_size, speed):
         logging.info("Staring to walk with step size: " + str(step_size) + ", speed: " + str(speed) + ", direction:" + str(direction) + ", and legs: " + str(legs))
         try:
-            for leg in legs:
-                logging.info("moving leg: " + str(leg.name))
-                if leg.tibia < 15:
-                    self.servo_board_1.servo[leg.coxa].angle = self.determine_angle(leg, direction)
-                else:
-                    self.servo_board_2.servo[leg.coxa - 15].angle = self.determine_angle(leg, direction)
-                time.sleep(speed)
+            logging.info("moving leg: " + str(leg.name))
+            if leg.tibia < 15:
+                self.servo_board_1.servo[leg.coxa].angle = self.determine_angle(leg, direction)
+            else:
+                self.servo_board_2.servo[leg.coxa - 15].angle = self.determine_angle(leg, direction)
+            time.sleep(speed)
         except:
-            logging.error("Bende is kapot in move_tripod_gait" + str(legs))
+            logging.error("Bende is kapot in move_tripod_gait" + str(leg.name))
 
     def determine_angle(self, leg, direction):
         angle = leg.max_front_position[0]
