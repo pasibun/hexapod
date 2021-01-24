@@ -30,10 +30,16 @@ class Movement(object):
             self.move_tripod_gait(self.hexapod.tripod_gait_right[0], Direction.FORWARD, speed)
             self.move_tripod_gait(self.hexapod.tripod_gait_right[1], Direction.FORWARD, speed)
             self.move_tripod_gait(self.hexapod.tripod_gait_right[2], Direction.FORWARD, speed)
+            self.move_tripod_gait(self.hexapod.tripod_gait_left[0], Direction.BACKWARD, speed)
+            self.move_tripod_gait(self.hexapod.tripod_gait_left[1], Direction.BACKWARD, speed)
+            self.move_tripod_gait(self.hexapod.tripod_gait_left[2], Direction.BACKWARD, speed)
             time.sleep(1)
             self.move_tripod_gait(self.hexapod.tripod_gait_right[0], Direction.BACKWARD, speed)
             self.move_tripod_gait(self.hexapod.tripod_gait_right[1], Direction.BACKWARD, speed)
             self.move_tripod_gait(self.hexapod.tripod_gait_right[2], Direction.BACKWARD, speed)
+            self.move_tripod_gait(self.hexapod.tripod_gait_left[0], Direction.FORWARD, speed)
+            self.move_tripod_gait(self.hexapod.tripod_gait_left[1], Direction.FORWARD, speed)
+            self.move_tripod_gait(self.hexapod.tripod_gait_left[2], Direction.FORWARD, speed)
             time.sleep(1)
 
     def move_tripod_gait(self, leg, direction, speed):
