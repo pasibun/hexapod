@@ -1,5 +1,4 @@
 import logging
-import threading
 import time
 
 import busio
@@ -26,56 +25,19 @@ class Movement(object):
     def __init__(self):
         logging.info("Init movement service")
 
-    def tripod_gait(self, direction, step_size, speed):
+    def tripod_gait(self, direction, speed):
         for i in range(10):
-            t1 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_right[0], Direction.FORWARD, step_size, speed), daemon=True)
-            t2 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_right[1], Direction.FORWARD, step_size, speed), daemon=True)
-            t3 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_right[2], Direction.FORWARD, step_size, speed), daemon=True)
-
-            t4 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_left[0], Direction.BACKWARD, step_size, speed), daemon=True)
-            t5 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_left[1], Direction.BACKWARD, step_size, speed), daemon=True)
-            t6 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_left[2], Direction.BACKWARD, step_size, speed), daemon=True)
-            t1.start()
-            t2.start()
-            t3.start()
-            time.sleep(0.3)
-            t4.start()
-            t5.start()
-            t6.start()
-
-            t1.join()
-            t2.join()
-            t3.join()
-            t4.join()
-            t5.join()
-            t6.join()
+            self.move_tripod_gait(self.hexapod.tripod_gait_right[0], Direction.FORWARD, speed)
+            self.move_tripod_gait(self.hexapod.tripod_gait_right[1], Direction.FORWARD, speed)
+            self.move_tripod_gait(self.hexapod.tripod_gait_right[2], Direction.FORWARD, speed)
             time.sleep(1)
-            t1 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_right[0], Direction.BACKWARD, step_size, speed), daemon=True)
-            t2 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_right[1], Direction.BACKWARD, step_size, speed), daemon=True)
-            t3 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_right[2], Direction.BACKWARD, step_size, speed), daemon=True)
-
-            t4 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_left[0], Direction.FORWARD, step_size, speed), daemon=True)
-            t5 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_left[1], Direction.FORWARD, step_size, speed), daemon=True)
-            t6 = threading.Thread(target=self.move_tripod_gait, args=(self.hexapod.tripod_gait_left[2], Direction.FORWARD, step_size, speed), daemon=True)
-            t1.start()
-            t2.start()
-            t3.start()
-            time.sleep(0.3)
-            t4.start()
-            t5.start()
-            t6.start()
-            t1.join()
-            t2.join()
-            t3.join()
-            t4.join()
-            t5.join()
-            t6.join()
+            self.move_tripod_gait(self.hexapod.tripod_gait_right[0], Direction.BACKWARD, speed)
+            self.move_tripod_gait(self.hexapod.tripod_gait_right[1], Direction.BACKWARD, speed)
+            self.move_tripod_gait(self.hexapod.tripod_gait_right[2], Direction.BACKWARD, speed)
             time.sleep(1)
 
-        print("started all legs.")
-
-    def move_tripod_gait(self, leg, direction, step_size, speed):
-        logging.info("Staring to walk with step size: " + str(step_size) + ", speed: " + str(speed) + ", direction:" + str(direction) + ", and leg: " + str(leg.name))
+    def move_tripod_gait(self, leg, direction, speed):
+        logging.info("Staring to walk with speed: " + str(speed) + ", direction:" + str(direction) + ", and leg: " + str(leg.name))
         try:
             logging.info("moving leg: " + str(leg.name))
             if leg.tibia < 15:
