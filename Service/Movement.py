@@ -49,7 +49,10 @@ class Movement(object):
         try:
             logging.info("moving leg: " + str(leg.name))
             angle = self.determine_angle(leg, direction) / 3
+            print(angle)
             for angle_step in range(3):
+                print(angle_step)
+                print(angle_step * angle)
                 print(angle * angle_step)
                 if leg.tibia < 15:
                     self.servo_board_1.servo[leg.coxa].angle = angle * angle_step
