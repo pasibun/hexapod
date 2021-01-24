@@ -1,4 +1,4 @@
-class Leg(object):
+class HexapodLeg(object):
     name = None
     coxa = None
     femur = None

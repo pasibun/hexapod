@@ -7,13 +7,13 @@ from adafruit_servokit import ServoKit
 from board import SCL, SDA
 
 from Domain.Enum.direction import Direction
-from Domain.Hexa import Hexa
+from Domain.hexapod import Hexapod
 
 
 class Movement(object):
     servo_board_1 = ServoKit(channels=16, address=0x40)
     servo_board_2 = ServoKit(channels=16, address=0x41)
-    hexapod = Hexa()
+    hexapod = Hexapod()
 
     # Create the I2C bus interface.
     i2c_bus = busio.I2C(SCL, SDA)
