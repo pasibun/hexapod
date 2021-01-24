@@ -48,14 +48,14 @@ class Movement(object):
         logging.info("Staring to walk with speed: " + str(speed) + ", direction:" + str(direction) + ", and leg: " + str(leg.name))
         try:
             logging.info("moving leg: " + str(leg.name))
-            angle = self.determine_angle(leg, direction) / 3
-            for angle_step in range(3):
+            angle = self.determine_angle(leg, direction) / 10
+            for angle_step in range(10):
                 logging.debug("angle: " + str(angle * (angle_step + 1)))
                 if leg.tibia < 15:
                     self.servo_board_1.servo[leg.coxa].angle = (angle * (angle_step + 1))
                 else:
                     self.servo_board_2.servo[leg.coxa - 15].angle = (angle * (angle_step + 1))
-                time.sleep(0.2)
+                time.sleep(0.1)
         except:
             logging.error("Bende is kapot in move_tripod_gait" + str(leg.name))
 
