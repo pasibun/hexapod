@@ -18,7 +18,7 @@ class Menu(object):
               "1 -> Crab walk")
         walking_method = input()
         if walking_method.isdecimal():
-            self.walking_menu(WalkingMethode[walking_method])
+            self.walking_menu(WalkingMethode(walking_method))
         else:
             self.starting_menu()
 
