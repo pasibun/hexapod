@@ -1,6 +1,6 @@
 import logging
 
-from Domain.Enum.LegName import LegName
+from Domain.Enum.leg_name import LegName
 from Domain.Leg import Leg
 
 

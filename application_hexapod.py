@@ -1,6 +1,6 @@
 import logging
 
-from Service.Menu import Menu
+from Service.menu_service import Menu
 
 if __name__ == '__main__':
     logging.basicConfig(filename='logging.log', level=logging.INFO, format='%(asctime)s %(message)s')

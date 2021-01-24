@@ -6,7 +6,7 @@ from adafruit_pca9685 import PCA9685
 from adafruit_servokit import ServoKit
 from board import SCL, SDA
 
-from Domain.Enum.Direction import Direction
+from Domain.Enum.direction import Direction
 from Domain.Hexa import Hexa
 
 
@@ -48,7 +48,7 @@ class Movement(object):
                 else:
                     self.servo_board_2.servo[leg.coxa - 15].angle = angle
         except:
-            logging.error("Bende is kapot in move_tripod_gait" + str(leg.name))
+            logging.error("Bende is kapot in move_tripod_gait")
 
     def determine_angle(self, leg, direction):
         angle = leg.max_front_position[0]
