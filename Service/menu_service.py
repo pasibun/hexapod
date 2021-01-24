@@ -31,6 +31,6 @@ class Menu(object):
                 input_direction = Direction.FORWARD
             elif user_input == "s":
                 input_direction = Direction.BACKWARD
-            self.movement.tripod_gait(direction=input_direction, speed=1)
+            self.movement.walking(direction=input_direction, speed=1, walking_method=walking_method)
             time.sleep(1)
         # self.movement.rest_position()
