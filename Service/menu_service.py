@@ -14,8 +14,8 @@ class Menu(object):
 
     def starting_menu(self):
         print("Choose walking method: \n"
-              "0 -> Tripod gait \n"
-              "1 -> Crab walk")
+              "1 -> Tripod gait \n"
+              "2 -> Crab walk")
         walking_method = input()
         if walking_method.isdecimal():
             self.walking_menu(WalkingMethode(walking_method))
