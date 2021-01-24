@@ -26,36 +26,27 @@ class Movement(object):
         logging.info("Init movement service")
 
     def tripod_gait(self, direction, speed):
-        for i in range(10):
-            self.move_tripod_gait(self.hexapod.tripod_gait_right[0], Direction.FORWARD, speed)
-            # self.move_tripod_gait(self.hexapod.tripod_gait_right[1], Direction.FORWARD, speed)
-            # self.move_tripod_gait(self.hexapod.tripod_gait_right[2], Direction.FORWARD, speed)
-            # time.sleep(0.3)
-            # self.move_tripod_gait(self.hexapod.tripod_gait_left[0], Direction.BACKWARD, speed)
-            # self.move_tripod_gait(self.hexapod.tripod_gait_left[1], Direction.BACKWARD, speed)
-            # self.move_tripod_gait(self.hexapod.tripod_gait_left[2], Direction.BACKWARD, speed)
-            time.sleep(1)
-            self.move_tripod_gait(self.hexapod.tripod_gait_right[0], Direction.BACKWARD, speed)
-            # self.move_tripod_gait(self.hexapod.tripod_gait_right[1], Direction.BACKWARD, speed)
-            # self.move_tripod_gait(self.hexapod.tripod_gait_right[2], Direction.BACKWARD, speed)
-            # time.sleep(0.3)
-            # self.move_tripod_gait(self.hexapod.tripod_gait_left[0], Direction.FORWARD, speed)
-            # self.move_tripod_gait(self.hexapod.tripod_gait_left[1], Direction.FORWARD, speed)
-            # self.move_tripod_gait(self.hexapod.tripod_gait_left[2], Direction.FORWARD, speed)
+        direction_left = direction
+        direction_right = self.determine_direction(direction)
+        for i in range(2):
+            self.move_tripod_gait(self.hexapod.tripod_gait_right, direction_right, speed)
+            time.sleep(0.3)
+            self.move_tripod_gait(self.hexapod.tripod_gait_left, direction_left, speed)
+
+            direction_left = self.determine_direction(direction_left)
+            direction_right = self.determine_direction(direction_right)
             time.sleep(1)
 
-    def move_tripod_gait(self, leg, direction, speed):
-        logging.info("Staring to walk with speed: " + str(speed) + ", direction:" + str(direction) + ", and leg: " + str(leg.name))
+    def move_tripod_gait(self, legs, direction, speed):
+        logging.info("Staring to walk with speed: " + str(speed) + ", direction:" + str(direction))
         try:
-            logging.info("moving leg: " + str(leg.name))
-            angle = self.determine_angle(leg, direction) / 10
-            for angle_step in range(10):
-                logging.debug("angle: " + str(angle * (angle_step + 1)))
+            for leg in legs:
+                logging.info("moving leg: " + str(leg.name))
+                angle = self.determine_angle(leg, direction)
                 if leg.tibia < 15:
-                    self.servo_board_1.servo[leg.coxa].angle = (angle * (angle_step + 1))
+                    self.servo_board_1.servo[leg.coxa].angle = angle
                 else:
-                    self.servo_board_2.servo[leg.coxa - 15].angle = (angle * (angle_step + 1))
-                time.sleep(0.1)
+                    self.servo_board_2.servo[leg.coxa - 15].angle = angle
         except:
             logging.error("Bende is kapot in move_tripod_gait" + str(leg.name))
 
@@ -65,6 +56,11 @@ class Movement(object):
             angle = leg.max_back_position[0]
         return angle
 
+    def determine_direction(self, direction):
+        if direction == Direction.BACKWARD:
+            return Direction.FORWARD
+        else:
+            return Direction.BACKWARD
     # def rest_position(self):
     #     logging.info("Putting Hexapod in rest position")
     #     for position in Hexa.reset_position:

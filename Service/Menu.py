@@ -24,13 +24,14 @@ class Menu(object):
             self.starting_menu()
 
     def walking_menu(self, walking_method):
-        print("Press w to move forwards or s for backwards")
-        user_input = input()
-        input_direction = Direction.FORWARD
-        if user_input == "w":
+        while True:
+            print("Press w to move forwards or s for backwards")
+            user_input = input()
             input_direction = Direction.FORWARD
-        elif user_input == "s":
-            input_direction = Direction.BACKWARD
-        self.movement.tripod_gait(direction=input_direction, speed=1)
-        time.sleep(1)
+            if user_input == "w":
+                input_direction = Direction.FORWARD
+            elif user_input == "s":
+                input_direction = Direction.BACKWARD
+            self.movement.tripod_gait(direction=input_direction, speed=1)
+            time.sleep(1)
         # self.movement.rest_position()
