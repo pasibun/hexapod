@@ -28,30 +28,34 @@ class Movement(object):
     def tripod_gait(self, direction, speed):
         for i in range(10):
             self.move_tripod_gait(self.hexapod.tripod_gait_right[0], Direction.FORWARD, speed)
-            self.move_tripod_gait(self.hexapod.tripod_gait_right[1], Direction.FORWARD, speed)
-            self.move_tripod_gait(self.hexapod.tripod_gait_right[2], Direction.FORWARD, speed)
-            time.sleep(0.3)
-            self.move_tripod_gait(self.hexapod.tripod_gait_left[0], Direction.BACKWARD, speed)
-            self.move_tripod_gait(self.hexapod.tripod_gait_left[1], Direction.BACKWARD, speed)
-            self.move_tripod_gait(self.hexapod.tripod_gait_left[2], Direction.BACKWARD, speed)
-            time.sleep(1)
-            self.move_tripod_gait(self.hexapod.tripod_gait_right[0], Direction.BACKWARD, speed)
-            self.move_tripod_gait(self.hexapod.tripod_gait_right[1], Direction.BACKWARD, speed)
-            self.move_tripod_gait(self.hexapod.tripod_gait_right[2], Direction.BACKWARD, speed)
-            time.sleep(0.3)
-            self.move_tripod_gait(self.hexapod.tripod_gait_left[0], Direction.FORWARD, speed)
-            self.move_tripod_gait(self.hexapod.tripod_gait_left[1], Direction.FORWARD, speed)
-            self.move_tripod_gait(self.hexapod.tripod_gait_left[2], Direction.FORWARD, speed)
+            # self.move_tripod_gait(self.hexapod.tripod_gait_right[1], Direction.FORWARD, speed)
+            # self.move_tripod_gait(self.hexapod.tripod_gait_right[2], Direction.FORWARD, speed)
+            # time.sleep(0.3)
+            # self.move_tripod_gait(self.hexapod.tripod_gait_left[0], Direction.BACKWARD, speed)
+            # self.move_tripod_gait(self.hexapod.tripod_gait_left[1], Direction.BACKWARD, speed)
+            # self.move_tripod_gait(self.hexapod.tripod_gait_left[2], Direction.BACKWARD, speed)
+            # time.sleep(1)
+            # self.move_tripod_gait(self.hexapod.tripod_gait_right[0], Direction.BACKWARD, speed)
+            # self.move_tripod_gait(self.hexapod.tripod_gait_right[1], Direction.BACKWARD, speed)
+            # self.move_tripod_gait(self.hexapod.tripod_gait_right[2], Direction.BACKWARD, speed)
+            # time.sleep(0.3)
+            # self.move_tripod_gait(self.hexapod.tripod_gait_left[0], Direction.FORWARD, speed)
+            # self.move_tripod_gait(self.hexapod.tripod_gait_left[1], Direction.FORWARD, speed)
+            # self.move_tripod_gait(self.hexapod.tripod_gait_left[2], Direction.FORWARD, speed)
             time.sleep(1)
 
     def move_tripod_gait(self, leg, direction, speed):
         logging.info("Staring to walk with speed: " + str(speed) + ", direction:" + str(direction) + ", and leg: " + str(leg.name))
         try:
             logging.info("moving leg: " + str(leg.name))
-            if leg.tibia < 15:
-                self.servo_board_1.servo[leg.coxa].angle = self.determine_angle(leg, direction)
-            else:
-                self.servo_board_2.servo[leg.coxa - 15].angle = self.determine_angle(leg, direction)
+            angle = self.determine_angle(leg, direction) / 3
+            for angle_step in range(3):
+                print(angle * angle_step)
+                if leg.tibia < 15:
+                    self.servo_board_1.servo[leg.coxa].angle = angle * angle_step
+                else:
+                    self.servo_board_2.servo[leg.coxa - 15].angle = angle * angle_step
+                time.sleep(0.05)
         except:
             logging.error("Bende is kapot in move_tripod_gait" + str(leg.name))
 
