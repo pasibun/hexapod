@@ -10,6 +10,7 @@ class MqttService(object):
     MQTT_PASSWORD = ""
     MQTT_TOPIC = "edwin/jarvis/hexapod/set"
     MQTT_TOPIC_MOVEMENT = "edwin/jarvis/hexapod/movement/set"
+    MQTT_TOPIC_MOVEMENT_METHODE = "edwin/jarvis/hexapod/movement/method/set"
 
     def __init__(self):
         print("init mqtt service")
@@ -45,6 +46,8 @@ class MqttService(object):
         self.client.subscribe(self.MQTT_TOPIC)
         print("Subscribing to topic: ", self.MQTT_TOPIC_MOVEMENT)
         self.client.subscribe(self.MQTT_TOPIC_MOVEMENT)
+        print("Subscribing to topic: ", self.MQTT_TOPIC_MOVEMENT_METHODE)
+        self.client.subscribe(self.MQTT_TOPIC_MOVEMENT_METHODE)
 
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
